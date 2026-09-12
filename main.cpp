@@ -1,3 +1,4 @@
+#include <array>
 #include <iostream>
 #include <string>
 
@@ -10,9 +11,11 @@ using std::getline;
 using std::string;
 using std::this_thread::sleep_for;
 using std::chrono::duration;
+using std::array;
 
 void print(string msg, float delay);
 void printWord(string msg, float delay);
+array<float, 2> debug();
 
 int main()
 {   
@@ -24,7 +27,16 @@ int main()
     cout << "Please enter a msg : ";
     getline(cin,msg);
 
-    //add debug here to change chardelay and worddelay
+    while (msg == "debug")
+    {
+        array<float,2> vars;
+        vars = debug();
+        charDelay = vars[0];
+        wordDelay = vars[1];
+
+        cout << "Please enter a msg : ";
+        getline(cin,msg);
+    }
 
     printWord(msg, wordDelay);
 
@@ -43,6 +55,8 @@ void print(string msg, float delay)
 
 void printWord(string msg, float delay)
 {
+    sleep_for(duration<float>(delay)); // initial delay
+   
     for (char ch : msg)
     {
         if (ch != ' ')
@@ -56,4 +70,18 @@ void printWord(string msg, float delay)
         }
     }
     sleep_for(duration<float>(delay));
+}
+
+array<float,2> debug()
+{   
+    array<float,2> vars;
+    cout << "Enter a value for char delay : ";
+    cin >> vars[0];
+    cout << "Enter a value for word delay : ";
+    cin >> vars[1];
+
+    cin.ignore();
+
+    return vars;
+    
 }
