@@ -11,18 +11,28 @@ using std::getline;
 using std::string;
 using std::this_thread::sleep_for;
 using std::chrono::duration;
+using std::tuple;
 using std::array;
 
-void print(string msg, float delay);
+void printChar(string msg, float delay);
 void printWord(string msg, float delay);
-array<float, 2> debug();
+array<float,2> debug();
+tuple<string, float, float>handleInput();
 
 int main()
-{   
-    string msg;
+{  
+    auto [msg, charDelay, wordDelay] = handleInput();
 
+    printWord(msg, wordDelay);
+
+    return 0;
+}
+
+tuple<string, float, float>handleInput()
+{   
     float charDelay = 0.25;
     float wordDelay = 0.4;
+    string msg;
 
     cout << "Please enter a msg : ";
     getline(cin,msg);
@@ -38,12 +48,10 @@ int main()
         getline(cin,msg);
     }
 
-    printWord(msg, wordDelay);
-
-    return 0;
+    return {msg, charDelay, wordDelay};
 }
 
-void print(string msg, float delay)
+void printChar(string msg, float delay)
 {
     for ( char ch : msg)
     {
